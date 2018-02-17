@@ -33,10 +33,22 @@ public class RestApiController {
     //TODO: to implement with HATEOAS
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/quotes/{id}")
-    public ResponseEntity<Quote> retrieveUser(@PathVariable int id){
+    public ResponseEntity<Quote> retrieveQuote(@PathVariable int id){
         Quote quote = quoteService.findById(id);
-        if(quote==null)
+        if(quote == null)
             throw new QuoteNotFoundException("id-"+ id);
+        return new ResponseEntity<>(quote, HttpStatus.OK);
+    }
+
+    @GetMapping("/random")
+    public ResponseEntity<Quote> randomQuote(){
+        Quote quote = quoteService.randomQuote();
+        return new ResponseEntity<>(quote, HttpStatus.OK);
+    }
+
+    @GetMapping("/randomten")
+    public ResponseEntity<List<Quote>> randomTenQuotes(){
+        List<Quote> quote = quoteService.randomTenQuotes();
         return new ResponseEntity<>(quote, HttpStatus.OK);
     }
 

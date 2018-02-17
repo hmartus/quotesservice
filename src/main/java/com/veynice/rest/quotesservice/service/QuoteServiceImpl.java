@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
 
 
@@ -77,12 +78,17 @@ public class QuoteServiceImpl implements QuoteService {
 
     @Override
     public Quote randomQuote() {
-        return null;
+        int randomNum = ThreadLocalRandom.current().nextInt(1, quotes.size() + 1);
+        return findById(randomNum);
     }
 
     @Override
     public List<Quote> randomTenQuotes() {
-        return null;
+        List<Quote> q = new ArrayList<>();
+        for(int i = 0 ; i < 10 ; i++){
+            q.add(randomQuote());
+        }
+        return q;
     }
 
     private static List<Quote> populateDummyQuotes(){
@@ -94,4 +100,6 @@ public class QuoteServiceImpl implements QuoteService {
         quotes.add(new Quote(counter.incrementAndGet(),"Put a tank in a mall? How? ","HarVEY"));
         return quotes;
     }
+
+
 }
